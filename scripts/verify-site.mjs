@@ -3,6 +3,8 @@ import { dirname, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const pages = ["index.html", "fil/index.html", "privacy/index.html"];
+const landingPages = new Set(["index.html", "fil/index.html"]);
+const playUrl = "https://play.google.com/store/apps/details?id=com.arrivalalarm.app";
 const failures = [];
 
 for (const relative of pages) {
@@ -22,6 +24,15 @@ for (const relative of pages) {
   if (/<form(?:\s|>)/i.test(html)) failures.push(`${relative}: form found`);
   if (/googletagmanager|google-analytics|gtag\s*\(|facebook\.com\/tr|pixel\.js/i.test(html)) failures.push(`${relative}: analytics reference found`);
   if (/\.kt\b|\.jks\b|\.keystore\b|MAPS_API_KEY|MALAPIT_STORE_PASSWORD|local\.properties|\/Users\//i.test(html)) failures.push(`${relative}: private/source reference found`);
+
+  if (landingPages.has(relative)) {
+    const playLinkCount = html.split(`href="${playUrl}"`).length - 1;
+    if (playLinkCount !== 2) failures.push(`${relative}: expected two Play Store links, found ${playLinkCount}`);
+    if (!/google-play-badge\.png/i.test(html)) failures.push(`${relative}: missing official Play Store badge`);
+    if (/<span class="pill">(?:Coming soon on Android|Malapit na sa Android)<\/span>|class="coming"/i.test(html)) {
+      failures.push(`${relative}: stale coming-soon content found`);
+    }
+  }
 
   for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
     const tag = match[0];
