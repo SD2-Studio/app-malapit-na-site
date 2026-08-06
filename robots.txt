@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sd2-studio.github.io/app-malapit-na-site/sitemap.xml
