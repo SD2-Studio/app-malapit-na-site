@@ -68,20 +68,24 @@
       <p>Live location fixes are held temporarily in memory and are not added to ride history or sent to Fri Vei As. A system geofence may be registered on the device as a backup alarm trigger.</p>
 
       <h2>Data stored on your device</h2>
-      <p>Malapit Na stores saved-stop names and coordinates, an active destination and alarm distance, ride history, language and alarm settings, and the last map view on your device. This app-controlled data is not uploaded to Fri Vei As.</p>
-      <p>Delete individual saved stops in the app. Cancel a ride to remove the active destination. Clearing Malapit Na's app data or uninstalling the app removes all app-controlled stored data. There is no remote account record for Fri Vei As to delete.</p>
+      <p>Malapit Na stores saved-stop names and coordinates, an active destination and alarm distance, ride history, language and alarm settings, the last map view, and any offline map packs you download on your device. This app-controlled data is not uploaded to Fri Vei As.</p>
+      <p>Delete individual saved stops in the app. Delete downloaded map packs in Settings → Offline maps. Cancel a ride to remove the active destination. Clearing Malapit Na's app data or uninstalling the app removes all app-controlled stored data. There is no remote account record for Fri Vei As to delete.</p>
 
-      <h2>Google Maps and network requests</h2>
-      <p>When the map is displayed, Google Maps SDK for Android supplies map content. Google states that the SDK automatically collects request and device metadata, SDK crash metrics and stack traces, IP address, a Maps SDK-specific pseudonymous identifier, and—depending on use—map interactions such as panning and zooming. Google uses this information to maintain and improve its services. It is separate from the live ride location, saved stops, and ride history that Malapit Na keeps on the device.</p>
+      <h2>Maps and network requests</h2>
+      <p>The map is drawn on your device by MapLibre, an open-source map library, using map tiles from OpenFreeMap, a free public tile service. While the map is on screen, your phone requests the tiles it needs from tiles.openfreemap.org over HTTPS. There is no map API key, no map account, and no map SDK telemetry, and the requests carry no advertising identifier and no identifier created by this app.</p>
+      <p>Like any request your phone makes to a website, a tile request tells that server your IP address and standard connection metadata, along with which tiles were asked for—which indicates, roughly, the part of the map you are looking at. Nothing in the request identifies you, and there is no account for it to be attached to.</p>
+      <p>Map fonts and icons are bundled inside the app and are never downloaded, so the map keeps its labels even with no connection.</p>
+      <p>You can download an offline map pack for your area or your route in Settings → Offline maps. Those tiles come from the same tile service and are then stored in Malapit Na's private storage on your phone. The pack, its name, and the date you created it stay on the device; nothing about a pack is uploaded. Delete a pack in Offline maps, clear the app's data, or uninstall the app to remove it.</p>
       <p>If you explicitly share a Google Maps short link with Malapit Na, the app sends a limited request to Google to follow that link and read coordinates from its destination. Google necessarily receives the request's IP address and standard connection metadata. The shared link is not retained by Malapit Na after it is resolved.</p>
-      <p>Google processes data under its own terms and privacy policy. See <a href="https://policies.google.com/privacy">Google's privacy policy</a> and the <a href="https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure">Maps SDK disclosure</a>.</p>
+      <p>Google processes that short-link request under its own terms and privacy policy; see <a href="https://policies.google.com/privacy">Google's privacy policy</a>. OpenFreeMap is an independent public tile service, operated by neither Fri Vei As nor Google; see <a href="https://openfreemap.org">openfreemap.org</a>.</p>
 
       <h2>Permissions</h2>
       <ul>
         <li>Precise, approximate, and background location: calculate distance and keep an active destination alarm working when the app is not in use.</li>
         <li>Notifications and full-screen alarms: show ride progress and alert you over the lock screen.</li>
         <li>Foreground service, wake lock, vibration, and boot: keep an armed ride visible, sound the alarm, and restore a recent active ride after a device restart.</li>
-        <li>Internet: load Google Maps and resolve a Google Maps link you explicitly share.</li>
+        <li>Internet: load map tiles, download an offline map pack when you ask for one, and resolve a Google Maps link you explicitly share.</li>
+        <li>Network and Wi-Fi state: check whether you are online so the app can explain a blank map. The Wi-Fi state permission is contributed by the map library; the app does not read your Wi-Fi networks.</li>
       </ul>
       <p>You can change permissions in Android Settings. Removing location permission prevents the destination alarm from tracking your ride.</p>
 
@@ -109,20 +113,24 @@
       <p>Pansamantalang nasa memory lang ang live location fixes. Hindi ito idinadagdag sa ride history o ipinapadala sa Fri Vei As. Maaaring magrehistro ang app ng system geofence sa device bilang backup na trigger ng alarm.</p>
 
       <h3>Datos na naka-store sa device</h3>
-      <p>Naka-store sa device mo ang pangalan at coordinates ng mga saved na babaan, aktibong destination at alarm distance, ride history, language at alarm settings, at huling map view. Hindi ina-upload sa Fri Vei As ang datos na ito.</p>
-      <p>Maaari mong burahin ang bawat saved na babaan sa app. Kanselahin ang biyahe para alisin ang aktibong destination. Kapag nag-clear ka ng app data o in-uninstall ang Malapit Na, mabubura ang lahat ng datos na kontrolado ng app. Walang remote account record na kailangang burahin ng Fri Vei As.</p>
+      <p>Naka-store sa device mo ang pangalan at coordinates ng mga saved na babaan, aktibong destination at alarm distance, ride history, language at alarm settings, huling map view, at ang mga offline map pack na dina-download mo. Hindi ina-upload sa Fri Vei As ang datos na ito.</p>
+      <p>Maaari mong burahin ang bawat saved na babaan sa app. Burahin ang mga na-download na map pack sa Settings → Offline maps. Kanselahin ang biyahe para alisin ang aktibong destination. Kapag nag-clear ka ng app data o in-uninstall ang Malapit Na, mabubura ang lahat ng datos na kontrolado ng app. Walang remote account record na kailangang burahin ng Fri Vei As.</p>
 
-      <h3>Google Maps at network requests</h3>
-      <p>Kapag ipinapakita ang mapa, Google Maps SDK for Android ang nagbibigay ng map content. Ayon sa Google, awtomatikong kinokolekta ng SDK ang request at device metadata, SDK crash metrics at stack traces, IP address, pseudonymous identifier na para sa Maps SDK, at—depende sa paggamit—map interactions tulad ng pag-pan at pag-zoom. Ginagamit ito ng Google para panatilihin at pagbutihin ang mga serbisyo nito. Hiwalay ito sa live ride location, mga saved na babaan, at ride history na pinananatili ng Malapit Na sa device.</p>
+      <h3>Mapa at network requests</h3>
+      <p>Ang mapa ay iginuguhit sa device mo ng MapLibre, isang open-source na map library, gamit ang map tiles mula sa OpenFreeMap, isang libreng pampublikong tile service. Habang nasa screen ang mapa, hinihingi ng phone mo ang mga tile na kailangan nito sa tiles.openfreemap.org sa pamamagitan ng HTTPS. Walang map API key, walang map account, at walang map SDK telemetry, at walang advertising identifier o anumang identifier na gawa ng app na kasama sa mga request na ito.</p>
+      <p>Tulad ng kahit anong request ng phone mo sa isang website, sinasabi ng tile request sa server na iyon ang IP address mo at ang karaniwang connection metadata, pati kung aling mga tile ang hiningi—na tantiyang nagpapakita kung saang bahagi ng mapa ka nakatingin. Walang nasa request na nagpapakilala sa iyo, at walang account na maiuugnay dito.</p>
+      <p>Nakabalot na sa loob ng app ang mga font at icon ng mapa at hindi na ito dina-download, kaya may mga label pa rin ang mapa kahit walang koneksyon.</p>
+      <p>Maaari kang mag-download ng offline map pack para sa lugar mo o sa ruta mo sa Settings → Offline maps. Galing sa parehong tile service ang mga tile na iyon at ini-store ang mga ito sa private storage ng Malapit Na sa phone mo. Nananatili sa device ang pack, ang pangalan nito, at ang petsa ng paggawa mo rito; walang ini-upload tungkol sa isang pack. Burahin ang pack sa Offline maps, i-clear ang app data, o i-uninstall ang app para maalis ito.</p>
       <p>Kung ikaw mismo ang mag-share ng Google Maps short link sa Malapit Na, magpapadala ang app ng limitadong request sa Google para sundan ang link at basahin ang coordinates. Matatanggap ng Google ang IP address at karaniwang connection metadata ng request. Hindi itinatago ng Malapit Na ang shared link pagkatapos itong ma-resolve.</p>
-      <p>Pinoproseso ng Google ang datos ayon sa sarili nitong terms at privacy policy. Tingnan ang <a href="https://policies.google.com/privacy">privacy policy ng Google</a> at ang <a href="https://developers.google.com/maps/documentation/android-sdk/play-data-disclosure">Maps SDK disclosure</a>.</p>
+      <p>Pinoproseso ng Google ang request na iyon para sa short link ayon sa sarili nitong terms at privacy policy; tingnan ang <a href="https://policies.google.com/privacy">privacy policy ng Google</a>. Ang OpenFreeMap ay isang malayang pampublikong tile service na hindi pinapatakbo ng Fri Vei As o ng Google; tingnan ang <a href="https://openfreemap.org">openfreemap.org</a>.</p>
 
       <h3>Mga permission</h3>
       <ul>
         <li>Precise, approximate, at background location: kalkulahin ang layo at panatilihing gumagana ang aktibong destination alarm kapag hindi ginagamit ang app.</li>
         <li>Notifications at full-screen alarms: ipakita ang progreso ng biyahe at ang alarm sa ibabaw ng lock screen.</li>
         <li>Foreground service, wake lock, vibration, at boot: panatilihing nakikita ang aktibong biyahe, patunugin ang alarm, at ibalik ang bagong aktibong biyahe pagkatapos mag-restart ang device.</li>
-        <li>Internet: mag-load ng Google Maps at mag-resolve ng Google Maps link na ikaw mismo ang nag-share.</li>
+        <li>Internet: mag-load ng map tiles, mag-download ng offline map pack kapag ikaw ang humiling, at mag-resolve ng Google Maps link na ikaw mismo ang nag-share.</li>
+        <li>Network at Wi-Fi state: tingnan kung online ka para maipaliwanag ng app ang blangkong mapa. Galing sa map library ang Wi-Fi state permission; hindi binabasa ng app ang mga Wi-Fi network mo.</li>
       </ul>
       <p>Maaari mong baguhin ang mga permission sa Android Settings. Kapag inalis ang location permission, hindi matatrack ng destination alarm ang biyahe mo.</p>
 
