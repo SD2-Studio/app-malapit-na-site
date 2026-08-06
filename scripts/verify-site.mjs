@@ -27,12 +27,35 @@ for (const relative of pages) {
   if (h1Count !== 1) failures.push(`${relative}: expected one h1, found ${h1Count}`);
   if (!/<meta\s+name="description"\s+content="[^"]+"/i.test(html)) failures.push(`${relative}: missing description`);
   if (!/<link\s+rel="canonical"\s+href="https:\/\/sd2-studio\.github\.io\/app-malapit-na-site\//i.test(html)) failures.push(`${relative}: missing canonical URL`);
-  if (!/English/i.test(html) || !/Filipino/i.test(html)) failures.push(`${relative}: missing language links`);
+  // Assert the switcher itself, not just the words. Searching the whole page for
+  // "English"/"Filipino" passed even with the nav deleted: the JSON-LD featureList and
+  // the body copy both name the languages. Scope to the nav, minus structured data.
+  const langSwitch = withoutStructuredData.match(/<nav\s+class="lang-switch"[\s\S]*?<\/nav>/i)?.[0];
+  if (!langSwitch) {
+    failures.push(`${relative}: missing language switcher`);
+  } else {
+    if (!/hreflang="en"[^>]*>\s*English\s*</i.test(langSwitch)) failures.push(`${relative}: switcher missing English link`);
+    if (!/hreflang="fil"[^>]*>\s*Filipino\s*</i.test(langSwitch)) failures.push(`${relative}: switcher missing Filipino link`);
+  }
   if (/<script(?:\s|>)/i.test(withoutStructuredData)) failures.push(`${relative}: runtime script found`);
   if (!/<meta\s+property="og:image"\s+content="https:\/\//i.test(html)) failures.push(`${relative}: missing og:image`);
-  for (const hreflang of ["en", "fil", "x-default"]) {
-    if (!new RegExp(`<link\\s+rel="alternate"\\s+hreflang="${hreflang}"`, "i").test(html)) {
-      failures.push(`${relative}: missing hreflang=${hreflang} alternate`);
+
+  for (const [, block] of html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/gi)) {
+    try {
+      JSON.parse(block);
+    } catch (error) {
+      failures.push(`${relative}: invalid JSON-LD (${error.message})`);
+    }
+  }
+
+  // Only the landing pages form an hreflang cluster. The privacy page serves both
+  // languages from one URL, and Google drops fragments, so alternates there would
+  // point every language at the same URL and conflict with themselves.
+  if (landingPages.has(relative)) {
+    for (const hreflang of ["en", "fil", "x-default"]) {
+      if (!new RegExp(`<link\\s+rel="alternate"\\s+hreflang="${hreflang}"`, "i").test(html)) {
+        failures.push(`${relative}: missing hreflang=${hreflang} alternate`);
+      }
     }
   }
   if (/<form(?:\s|>)/i.test(html)) failures.push(`${relative}: form found`);
