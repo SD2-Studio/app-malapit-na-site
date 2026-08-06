@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://sd2-studio.github.io/app-malapit-na-site/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <xhtml:link rel="alternate" hreflang="fil" href="https://sd2-studio.github.io/app-malapit-na-site/fil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sd2-studio.github.io/app-malapit-na-site/fil/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <xhtml:link rel="alternate" hreflang="fil" href="https://sd2-studio.github.io/app-malapit-na-site/fil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://sd2-studio.github.io/app-malapit-na-site/privacy/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>

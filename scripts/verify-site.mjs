@@ -15,12 +15,49 @@ for (const relative of pages) {
   }
 
   const html = readFileSync(path, "utf8");
+
+  // Structured data is the one <script> the site is allowed to ship: it carries no
+  // behaviour. Strip those blocks first so the runtime-script ban below still bites.
+  const withoutStructuredData = html.replace(
+    /<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/gi,
+    "",
+  );
+
   const h1Count = (html.match(/<h1(?:\s|>)/gi) ?? []).length;
   if (h1Count !== 1) failures.push(`${relative}: expected one h1, found ${h1Count}`);
   if (!/<meta\s+name="description"\s+content="[^"]+"/i.test(html)) failures.push(`${relative}: missing description`);
   if (!/<link\s+rel="canonical"\s+href="https:\/\/sd2-studio\.github\.io\/app-malapit-na-site\//i.test(html)) failures.push(`${relative}: missing canonical URL`);
-  if (!/English/i.test(html) || !/Filipino/i.test(html)) failures.push(`${relative}: missing language links`);
-  if (/<script(?:\s|>)/i.test(html)) failures.push(`${relative}: runtime script found`);
+  // Assert the switcher itself, not just the words. Searching the whole page for
+  // "English"/"Filipino" passed even with the nav deleted: the JSON-LD featureList and
+  // the body copy both name the languages. Scope to the nav, minus structured data.
+  const langSwitch = withoutStructuredData.match(/<nav\s+class="lang-switch"[\s\S]*?<\/nav>/i)?.[0];
+  if (!langSwitch) {
+    failures.push(`${relative}: missing language switcher`);
+  } else {
+    if (!/hreflang="en"[^>]*>\s*English\s*</i.test(langSwitch)) failures.push(`${relative}: switcher missing English link`);
+    if (!/hreflang="fil"[^>]*>\s*Filipino\s*</i.test(langSwitch)) failures.push(`${relative}: switcher missing Filipino link`);
+  }
+  if (/<script(?:\s|>)/i.test(withoutStructuredData)) failures.push(`${relative}: runtime script found`);
+  if (!/<meta\s+property="og:image"\s+content="https:\/\//i.test(html)) failures.push(`${relative}: missing og:image`);
+
+  for (const [, block] of html.matchAll(/<script\s+type="application\/ld\+json">([\s\S]*?)<\/script>/gi)) {
+    try {
+      JSON.parse(block);
+    } catch (error) {
+      failures.push(`${relative}: invalid JSON-LD (${error.message})`);
+    }
+  }
+
+  // Only the landing pages form an hreflang cluster. The privacy page serves both
+  // languages from one URL, and Google drops fragments, so alternates there would
+  // point every language at the same URL and conflict with themselves.
+  if (landingPages.has(relative)) {
+    for (const hreflang of ["en", "fil", "x-default"]) {
+      if (!new RegExp(`<link\\s+rel="alternate"\\s+hreflang="${hreflang}"`, "i").test(html)) {
+        failures.push(`${relative}: missing hreflang=${hreflang} alternate`);
+      }
+    }
+  }
   if (/<form(?:\s|>)/i.test(html)) failures.push(`${relative}: form found`);
   if (/googletagmanager|google-analytics|gtag\s*\(|facebook\.com\/tr|pixel\.js/i.test(html)) failures.push(`${relative}: analytics reference found`);
   if (/\.kt\b|\.jks\b|\.keystore\b|MAPS_API_KEY|MALAPIT_STORE_PASSWORD|local\.properties|\/Users\//i.test(html)) failures.push(`${relative}: private/source reference found`);
