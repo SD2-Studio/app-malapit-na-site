@@ -26,7 +26,7 @@ for (const relative of pages) {
   const h1Count = (html.match(/<h1(?:\s|>)/gi) ?? []).length;
   if (h1Count !== 1) failures.push(`${relative}: expected one h1, found ${h1Count}`);
   if (!/<meta\s+name="description"\s+content="[^"]+"/i.test(html)) failures.push(`${relative}: missing description`);
-  if (!/<link\s+rel="canonical"\s+href="https:\/\/sd2-studio\.github\.io\/app-malapit-na-site\//i.test(html)) failures.push(`${relative}: missing canonical URL`);
+  if (!/<link\s+rel="canonical"\s+href="https:\/\/malapitna\.com\//i.test(html)) failures.push(`${relative}: missing canonical URL`);
   // Assert the switcher itself, not just the words. Searching the whole page for
   // "English"/"Filipino" passed even with the nav deleted: the JSON-LD featureList and
   // the body copy both name the languages. Scope to the nav, minus structured data.
