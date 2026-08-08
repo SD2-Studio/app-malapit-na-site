@@ -447,7 +447,9 @@ footer {
   padding-block: 24px;
 }
 
-footer span { margin-right: auto }
+/* Direct child only: the credit line wraps the product name in its own
+   translate="no" span, which must not also be treated as a flex item. */
+footer > span { margin-right: auto }
 
 /* --- Responsive ----------------------------------------------------------- */
 
