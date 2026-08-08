@@ -2,25 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sd2-studio.github.io/app-malapit-na-site/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
-    <xhtml:link rel="alternate" hreflang="fil" href="https://sd2-studio.github.io/app-malapit-na-site/fil/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <loc>https://malapitna.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://malapitna.com/"/>
+    <xhtml:link rel="alternate" hreflang="fil" href="https://malapitna.com/fil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://malapitna.com/"/>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sd2-studio.github.io/app-malapit-na-site/fil/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
-    <xhtml:link rel="alternate" hreflang="fil" href="https://sd2-studio.github.io/app-malapit-na-site/fil/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://sd2-studio.github.io/app-malapit-na-site/"/>
+    <loc>https://malapitna.com/fil/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://malapitna.com/"/>
+    <xhtml:link rel="alternate" hreflang="fil" href="https://malapitna.com/fil/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://malapitna.com/"/>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sd2-studio.github.io/app-malapit-na-site/privacy/</loc>
+    <loc>https://malapitna.com/privacy/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

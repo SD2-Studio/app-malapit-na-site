@@ -29,7 +29,15 @@ body {
 
 .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto }
 
-img { max-width: 100% }
+/* Every screenshot carries width/height attributes so the browser can reserve
+   space before it loads. Without height:auto those attributes win over any CSS
+   width and the image renders at its full 1200px height, badly stretched.
+   height:auto keeps the reservation — the browser still derives the ratio from
+   the attributes — while letting the real ratio drive the rendered height.
+   Do not restate that ratio as a CSS aspect-ratio: box-sizing is border-box
+   here, so it would size the border box and squeeze the picture inside any
+   element that has a border. */
+img { max-width: 100%; height: auto }
 
 a:focus-visible,
 .play-link:focus-visible {
@@ -91,12 +99,14 @@ a:focus-visible,
   white-space: nowrap;
 }
 
-.lang-switch a[aria-current="true"] {
+/* Both pages mark the current language with aria-current="page", the correct
+   ARIA value for a link pointing at the page you are already on. */
+.lang-switch a[aria-current="page"] {
   background: var(--amber);
   color: var(--ink);
 }
 
-.lang-switch a:hover:not([aria-current="true"]) { color: var(--amber) }
+.lang-switch a:hover:not([aria-current="page"]) { color: var(--amber) }
 
 .nav-links > a.plain,
 footer a {
@@ -165,6 +175,7 @@ footer a:hover { color: var(--amber) }
 .phone {
   position: relative;
   width: min(320px, 74vw);
+  height: auto;
   border-radius: 38px;
   border: 10px solid #080709;
   box-shadow: 0 28px 90px #0009;
@@ -300,16 +311,20 @@ footer a:hover { color: var(--amber) }
   margin: 0;
 }
 
+/* Five screenshots, so five columns: a four-column grid stranded the last one
+   alone on a second row. */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 18px;
+  align-items: start;
 }
 
 .gallery figure { margin: 0 }
 
 .gallery img {
   width: 100%;
+  height: auto;
   display: block;
   border-radius: 22px;
   border: 1px solid var(--line);
@@ -399,6 +414,7 @@ footer a:hover { color: var(--amber) }
 
 .mini-gallery img {
   width: 100%;
+  height: auto;
   display: block;
   border-radius: 22px;
   border: 1px solid var(--line);
@@ -445,7 +461,20 @@ footer span { margin-right: auto }
   .hero-copy > p { margin-inline: auto }
   .route { width: 84% }
   .benefits { grid-template-columns: 1fr 1fr }
-  .gallery { grid-template-columns: 1fr 1fr }
+
+  /* Below five columns the gallery becomes a swipeable rail rather than
+     wrapping and leaving a lone screenshot on its own row. */
+  .gallery {
+    grid-auto-flow: column;
+    grid-auto-columns: 38%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gallery figure { scroll-snap-align: center }
+
   .privacy-grid { grid-template-columns: 70px 1fr }
   .privacy-grid > div:last-child { grid-column: 2 }
   .fil-bridge { grid-template-columns: 1fr; gap: 36px; padding-block: 70px }
@@ -466,7 +495,8 @@ footer span { margin-right: auto }
   .play-badge { width: 190px }
   .last-call { padding: 70px 0 90px }
 
-  /* Screenshots become a swipeable rail instead of hiding any of them. */
+  /* On a phone the rail widens so one screenshot reads at a glance, and the
+     Filipino pair joins it instead of squeezing into two narrow columns. */
   .gallery, .mini-gallery {
     display: grid;
     grid-auto-flow: column;
